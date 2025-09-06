@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Web Page</title>
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #6a0572; /* Deep Purple */
+            --secondary-color: #ab83a4; /* Lighter Purple */
+            --accent-color: #d10375; /* Magenta/Pink for buttons */
+            --bg-start-color: #fce4ec; /* Light Pink */
+            --bg-end-color: #e0f2f7;   /* Light Blue */
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #f0f0f0;
+            --box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--bg-start-color) 0%, var(--bg-end-color) 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh; /* Ensure gradient covers full height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        h1, h2 {
+            margin: 0;
+            color: inherit; /* Inherit color from parent for headers */
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .container {
+            flex-grow: 1; /* Allow container to take up available space */
+            display: grid;
+            gap: 2rem;
+            padding: 0 2rem 2rem; /* Adjust padding for aesthetics */
+            max-width: 1200px;
+            margin: 0 auto;
+            grid-template-columns: 1fr;
+            align-items: start; /* Align items to the top of their grid cell */
+        }
+
+        /* Responsive Layout with CSS Grid */
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* Slightly wider min width */
+            }
+        }
+
+        section {
+            background-color: var(--card-bg-color);
+            padding: 2.5rem; /* Increased padding for more spacious look */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Contact Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 1rem; /* More padding for inputs */
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(var(--accent-color), 0.2);
+            outline: none;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 1rem 2rem; /* Larger buttons */
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background-color: #b80063; /* Darker pink on hover */
+            transform: translateY(-2px);
+        }
+
+        /* To-Do List Styles */
+        .todo-list-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #new-task {
+            margin-bottom: 1rem;
+        }
+
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .todo-list li {
+            background-color: var(--bg-start-color); /* Lighter background for list items */
+            border: 1px solid var(--secondary-color);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .todo-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(var(--primary-color), 0.1);
+        }
+
+        .todo-list .remove-btn {
+            background-color: #ff4d4d; /* Red for remove button */
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .todo-list .remove-btn:hover {
+            background-color: #cc0000;
+        }
+
+        /* Helper Class */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Task Manager</h1>
+    </header>
+
+    <main class="container">
+        <section id="contact-form-section">
+            <h2>Contact Us</h2>
+            <form id="contact-form" novalidate>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+        </section>
+
+        <section id="todo-list-section" class="hidden">
+            <h2>Dynamic To-Do List</h2>
+            <div class="todo-list-container">
+                <div class="form-group">
+                    <input type="text" id="new-task" placeholder="Enter a new task">
+                    <button id="add-task-btn" class="btn">Add Task</button>
+                </div>
+                <ul id="task-list" class="todo-list"></ul>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contact-form');
+            const contactFormSection = document.getElementById('contact-form-section');
+            const todoListSection = document.getElementById('todo-list-section');
+            const addTaskBtn = document.getElementById('add-task-btn');
+            const newTaskInput = document.getElementById('new-task');
+            const taskList = document.getElementById('task-list');
+
+            // Form Submission and Validation
+            contactForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                if (contactForm.checkValidity()) {
+                    // Show success message or proceed to the next section
+                    alert('Form submitted successfully! Showing the To-Do List.');
+                    
+                    // Hide contact form and show to-do list
+                    contactFormSection.classList.add('hidden');
+                    todoListSection.classList.remove('hidden');
+                } else {
+                    alert('Please fill out all fields correctly.');
+                }
+            });
+
+            // Dynamic To-Do List
+            addTaskBtn.addEventListener('click', () => {
+                const taskText = newTaskInput.value.trim();
+
+                if (taskText !== '') {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <span>${taskText}</span>
+                        <button class="remove-btn">Remove</button>
+                    `;
+                    taskList.appendChild(listItem);
+                    newTaskInput.value = '';
+
+                    // Add click event listener to the new remove button
+                    const removeBtn = listItem.querySelector('.remove-btn');
+                    removeBtn.addEventListener('click', () => {
+                        listItem.remove();
+                    });
+                } else {
+                    alert('Please enter a task.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
